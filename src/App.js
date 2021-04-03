@@ -32,34 +32,63 @@ function App() {
         },
       }
     );
-    console.log(response.data);
-    setSearch(response.data);
+    console.log(response.data.animals);
+    setPet(response.data.animals);
+  };
+
+  const showAnimals = () => {
+    return pet.map((pets) => {
+      return (
+        <div className="row">
+          <div className="col-sm-6">
+            <h4>{pets.name}</h4>
+            <p className="text-secondary">Status: {pets.status}</p>
+            <ul className="list-group">
+              <li className="list-group-item"> {pets.gender}</li>
+              <li className="list-group-item"> {pets.species}</li>
+              <li className="list-group-item">
+                {pets.description ? pets.description : "No Description"}
+              </li>
+              <li className="list-group-item">Shelter ID: {pets.id}</li>
+              <li className="list-group-item">
+                <a href={pets.url}>Click Here to Adopt</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      );
+    });
   };
 
   return (
     <div className="App">
       <NavBar />
-      <h1>Hello World</h1>
       <form onSubmit={handleSubmit}>
         <input
+          className="form-control form-control-lg mt-3"
           type="text"
           placeholder="Search For a Pet"
-          onChange={(evt) => {
-            setSearch(evt.target.name);
+          onChange={(e) => {
+            setSearch(e.target.value);
           }}
         />
         <input
+          className="form-control form-control-lg mt-3"
           type="text"
-          value={zip}
           placeholder="Enter Zip"
-          onChange={(evt) => {
-            setZip(evt.target.value);
+          onChange={(e) => {
+            setZip(e.target.value);
           }}
         />
-        <button type="submit" value="submit">
-          Button
+        <button
+          className="btn btn-dark btn-lg btn-block mt-3"
+          type="submit"
+          value="submit"
+        >
+          Find
         </button>
       </form>
+      {showAnimals()}
     </div>
   );
 }
